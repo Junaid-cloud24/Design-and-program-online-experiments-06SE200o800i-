@@ -16,7 +16,7 @@ const timeline = [];
 // instruction 
 const instruction = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<h2 id='instruction'> Please press the <strong>space bar</strong> as soon as the stimulus appears. </h2>
+    stimulus: `<h2 id='instruction'> Please press the <strong>b button</strong> as soon as the stimulus appears. </h2>
                <p> press right arrow key to start! </p>
     `,
     choices: ['ArrowRight']
@@ -100,6 +100,14 @@ const drawBunnyfn = function (canvas){
 
 }
 
+const bunny ={
+    type: jsPsychCanvasKeyboardResponse,
+    canvas_size: [window.innerHeight, window.innerWidth],
+    stimulus: drawBunnyfn,
+    choices: "b"
+}
+timeline.push(bunny);
+
 
 const end = {
     type: jsPsychHtmlKeyboardResponse,
@@ -108,6 +116,44 @@ const end = {
     trial_duration: 1000
 }
 timeline.push(end)
+
+
+const face ={
+    type: jsPsychCanvasKeyboardResponse,
+    canvas_size: [window.innerHeight, window.innerWidth],
+    stimulus: (canvas)=>{
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(window.innerWidth/2, window.innerHeight/2, 100, 0, 2*Math.PI);
+        ctx.fillStyle = "green";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(window.innerWidth/2-25*2, window.innerHeight/2-25, 10, 0, 2*Math.PI);
+        ctx.fillStyle = "white";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(window.innerWidth/2+25*2, window.innerHeight/2-25, 10, 0, 2*Math.PI);
+        ctx.fillStyle = "white";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(window.innerWidth/2, window.innerHeight/2+25*2, 10, 0, Math.PI);
+        ctx.fillStyle = "white";
+        ctx.fill();
+        ctx.closePath();
+
+
+
+    },
+    choices: "NO_KEYS",
+    trial_duration: 1000
+}
+timeline.push(face);
 
 // step 4: run the timeline
 jsPsych.run(timeline);
